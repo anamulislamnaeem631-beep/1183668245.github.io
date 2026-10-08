@@ -1,359 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Subdomain Takeover Verification</title>
+<title>Security Verification</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{
+    box-sizing:border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#080b12;
+    color:#e5e7eb;
+    font-family:Arial,sans-serif;
+}
 
-            background:
-                radial-gradient(circle at top, #172554 0%, #080b12 45%);
+.card{
+    width:90%;
+    max-width:500px;
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 15px 40px #0008;
+}
 
-            color: #e5e7eb;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+.badge{
+    display:inline-block;
+    background:#052e16;
+    color:#4ade80;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
 
-        .container {
-            width: 100%;
-            max-width: 720px;
-        }
+h1{
+    margin:10px 0 4px;
+    font-size:21px;
+    color:#60a5fa;
+}
 
-        .card {
-            background: rgba(17, 24, 39, 0.96);
-            border: 1px solid #374151;
-            border-radius: 18px;
-            padding: 35px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
-        }
+.subtitle{
+    margin:0 0 15px;
+    color:#9ca3af;
+    font-size:11px;
+}
 
-        .badge {
-            display: inline-block;
-            padding: 7px 14px;
-            border-radius: 999px;
+.info{
+    background:#0f172a;
+    border-radius:8px;
+    overflow:hidden;
+}
 
-            background: #052e16;
-            color: #4ade80;
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:10px 12px;
+    border-bottom:1px solid #1f2937;
+}
 
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
+.row:last-child{
+    border-bottom:0;
+}
 
-        h1 {
-            margin: 20px 0 8px;
-            color: #60a5fa;
-            font-size: 30px;
-        }
+.label{
+    color:#9ca3af;
+    font-size:11px;
+}
 
-        .subtitle {
-            color: #9ca3af;
-            margin-bottom: 30px;
-        }
+.value{
+    color:#f3f4f6;
+    font-size:12px;
+    font-weight:bold;
+    text-align:right;
+    word-break:break-all;
+}
 
-        .domain-box {
-            padding: 20px;
-            margin-bottom: 25px;
+.cname{
+    color:#38bdf8;
+    font-family:monospace;
+}
 
-            background: #0f172a;
-            border: 1px solid #1e3a8a;
-            border-radius: 12px;
+.status{
+    color:#4ade80;
+}
 
-            text-align: center;
-        }
+.name{
+    color:#a78bfa;
+}
 
-        .domain-label {
-            color: #9ca3af;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
+.result{
+    margin-top:12px;
+    padding:10px 12px;
+    background:#052e16;
+    border-left:3px solid #22c55e;
+    border-radius:6px;
+    font-size:11px;
+    line-height:1.4;
+}
 
-        .domain {
-            color: #fbbf24;
-            font-size: 21px;
-            font-weight: bold;
-            word-break: break-all;
-        }
+.result b{
+    color:#4ade80;
+}
 
-        .details {
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-
-            padding: 16px 18px;
-            border-bottom: 1px solid #1f2937;
-        }
-
-        .row:last-child {
-            border-bottom: none;
-        }
-
-        .label {
-            color: #9ca3af;
-        }
-
-        .value {
-            color: #f3f4f6;
-            font-weight: bold;
-            text-align: right;
-            word-break: break-all;
-        }
-
-        .cname-section {
-            margin-top: 25px;
-        }
-
-        .cname-section h2 {
-            font-size: 18px;
-            color: #d1d5db;
-        }
-
-        .cname {
-            display: block;
-
-            margin: 10px 0;
-            padding: 13px 15px;
-
-            background: #020617;
-            border: 1px solid #334155;
-            border-radius: 8px;
-
-            color: #38bdf8;
-            font-family: monospace;
-            word-break: break-all;
-        }
-
-        .result {
-            margin-top: 28px;
-            padding: 20px;
-
-            background: #052e16;
-            border: 1px solid #166534;
-            border-left: 5px solid #22c55e;
-
-            border-radius: 10px;
-        }
-
-        .result-title {
-            color: #4ade80;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .result-text {
-            color: #d1fae5;
-            line-height: 1.6;
-        }
-
-        .researcher {
-            margin-top: 25px;
-            text-align: center;
-
-            color: #9ca3af;
-        }
-
-        .researcher strong {
-            color: #a78bfa;
-        }
-
-        .footer {
-            margin-top: 25px;
-            text-align: center;
-
-            color: #6b7280;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 600px) {
-            .card {
-                padding: 24px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .row {
-                flex-direction: column;
-                gap: 6px;
-            }
-
-            .value {
-                text-align: left;
-            }
-        }
-    </style>
+.footer{
+    margin-top:10px;
+    text-align:center;
+    color:#6b7280;
+    font-size:9px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-    <div class="card">
+    <span class="badge">SECURITY RESEARCH / PoC</span>
 
-        <span class="badge">
-            SECURITY RESEARCH / AUTHORIZED PoC
-        </span>
+    <h1>Subdomain Takeover Verification</h1>
 
-        <h1>
-            Subdomain Takeover Verification
-        </h1>
+    <p class="subtitle">
+        GitHub Pages CNAME verification
+    </p>
 
-        <p class="subtitle">
-            GitHub Pages CNAME verification
-        </p>
+    <div class="info">
 
-
-        <!-- TARGET DOMAIN -->
-
-        <div class="domain-box">
-
-            <div class="domain-label">
-                Affected Subdomain
-            </div>
-
-            <div class="domain">
-                subdomain.example.com
-            </div>
-
+        <div class="row">
+            <span class="label">Vulnerable Subdomain</span>
+            <span class="value">
+                https://www.paul-bruno.net/
+            </span>
         </div>
 
-
-        <!-- DETAILS -->
-
-        <div class="details">
-
-            <div class="row">
-                <span class="label">
-                    Main Domain
-                </span>
-
-                <span class="value">
-                    example.com
-                </span>
-            </div>
-
-
-            <div class="row">
-                <span class="label">
-                    Affected Subdomain
-                </span>
-
-                <span class="value">
-                    https://www.paul-bruno.net/
-                </span>
-            </div>
-
-
-            <div class="row">
-                <span class="label">
-                    Service
-                </span>
-
-                <span class="value">
-                    GitHub Pages
-                </span>
-            </div>
-
-
-            <div class="row">
-                <span class="label">
-                    Verification Status
-                </span>
-
-                <span class="value" style="color:#4ade80;">
-                    Verified
-                </span>
-            </div>
-
-        </div>
-
-
-        <!-- CNAME RECORDS -->
-
-        <div class="cname-section">
-
-            <h2>
-                CNAME Records
-            </h2>
-
-            <code class="cname">
+        <div class="row">
+            <span class="label">CNAME Records</span>
+            <span class="value cname">
                 0xpb.github.io
-            </code>
-
-            <code class="cname">
-                project.github.io
-            </code>
-
-            <!-- Add more CNAME records if needed -->
-
+            </span>
         </div>
 
-
-        <!-- RESULT -->
-
-        <div class="result">
-
-            <div class="result-title">
-                ✓ Verification Result
-            </div>
-
-            <div class="result-text">
-                The affected subdomain was verified as vulnerable
-                during an authorized security assessment.
-            </div>
-
+        <div class="row">
+            <span class="label">Service</span>
+            <span class="value">
+                GitHub Pages
+            </span>
         </div>
 
-
-        <!-- RESEARCHER -->
-
-        <div class="researcher">
-
-            Reported / Verified by
-
-            <br>
-
-            <strong>
+        <div class="row">
+            <span class="label">Researcher</span>
+            <span class="value name">
                 Anamul Islam Naeem
-            </strong>
-
+            </span>
         </div>
 
-
-        <!-- FOOTER -->
-
-        <div class="footer">
-
-            This proof-of-concept is intended for authorized
-            security testing and responsible disclosure purposes only.
-
-            <br><br>
-
-            Do not use this page against systems without authorization.
-
+        <div class="row">
+            <span class="label">Status</span>
+            <span class="value status">
+                Verified
+            </span>
         </div>
 
+    </div>
+
+    <div class="result">
+        <b>✓ Verification Result</b><br>
+        The subdomain was verified during an authorized
+        security assessment.
+    </div>
+
+    <div class="footer">
+        Authorized testing &amp; responsible disclosure only.
     </div>
 
 </div>
