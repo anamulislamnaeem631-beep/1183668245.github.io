@@ -3,98 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Verification</title>
+
+    <title>Subdomain Takeover Verification</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #080b12;
-            color: #fff;
-            font-family: Arial, sans-serif;
+            padding: 30px;
+
+            background:
+                radial-gradient(circle at top, #172554 0%, #080b12 45%);
+
+            color: #e5e7eb;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
         }
 
         .card {
-            width: 90%;
-            max-width: 650px;
-            padding: 40px;
-            background: #111827;
+            background: rgba(17, 24, 39, 0.96);
             border: 1px solid #374151;
             border-radius: 18px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+            padding: 35px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
         }
 
         .badge {
             display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 7px 14px;
+            border-radius: 999px;
+
             background: #052e16;
             color: #4ade80;
+
+            font-size: 13px;
             font-weight: bold;
-            margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
 
         h1 {
+            margin: 20px 0 8px;
             color: #60a5fa;
-            margin-bottom: 10px;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            margin-bottom: 30px;
+        }
+
+        .domain-box {
+            padding: 20px;
+            margin-bottom: 25px;
+
+            background: #0f172a;
+            border: 1px solid #1e3a8a;
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+        .domain-label {
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 8px;
         }
 
         .domain {
             color: #fbbf24;
-            font-size: 22px;
+            font-size: 21px;
             font-weight: bold;
-            margin: 20px 0;
+            word-break: break-all;
         }
 
-        .message {
-            margin: 25px 0;
-            padding: 20px;
-            background: #1f2937;
+        .details {
+            border: 1px solid #1f2937;
             border-radius: 12px;
-            font-size: 20px;
+            overflow: hidden;
         }
 
-        .name {
-            color: #a78bfa;
-            font-weight: bold;
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 16px 18px;
+            border-bottom: 1px solid #1f2937;
         }
 
-        .note {
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
             color: #9ca3af;
-            font-size: 13px;
+        }
+
+        .value {
+            color: #f3f4f6;
+            font-weight: bold;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .cname-section {
             margin-top: 25px;
+        }
+
+        .cname-section h2 {
+            font-size: 18px;
+            color: #d1d5db;
+        }
+
+        .cname {
+            display: block;
+
+            margin: 10px 0;
+            padding: 13px 15px;
+
+            background: #020617;
+            border: 1px solid #334155;
+            border-radius: 8px;
+
+            color: #38bdf8;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .result {
+            margin-top: 28px;
+            padding: 20px;
+
+            background: #052e16;
+            border: 1px solid #166534;
+            border-left: 5px solid #22c55e;
+
+            border-radius: 10px;
+        }
+
+        .result-title {
+            color: #4ade80;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .result-text {
+            color: #d1fae5;
+            line-height: 1.6;
+        }
+
+        .researcher {
+            margin-top: 25px;
+            text-align: center;
+
+            color: #9ca3af;
+        }
+
+        .researcher strong {
+            color: #a78bfa;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .value {
+                text-align: left;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
-    <div class="badge">Security Research / PoC</div>
+    <div class="card">
 
-    <h1>Subdomain Takeover Verification</h1>
+        <span class="badge">
+            SECURITY RESEARCH / AUTHORIZED PoC
+        </span>
 
-    <div class="domain">
-        http://www.metaformxpro.ca/
-    </div>
+        <h1>
+            Subdomain Takeover Verification
+        </h1>
 
-    <div class="message">
-        This subdomain has been <strong>verified as vulnerable</strong>
-        during an authorized security assessment.
-    </div>
+        <p class="subtitle">
+            GitHub Pages CNAME verification
+        </p>
 
-    <p>
-        Reported by:
-        <span class="name">Anamul Islam Naeem</span>
-    </p>
 
-    <div class="note">
-        This page is intended for authorized security testing and
-        responsible disclosure purposes only.
+        <!-- TARGET DOMAIN -->
+
+        <div class="domain-box">
+
+            <div class="domain-label">
+                Affected Subdomain
+            </div>
+
+            <div class="domain">
+                subdomain.example.com
+            </div>
+
+        </div>
+
+
+        <!-- DETAILS -->
+
+        <div class="details">
+
+            <div class="row">
+                <span class="label">
+                    Main Domain
+                </span>
+
+                <span class="value">
+                    example.com
+                </span>
+            </div>
+
+
+            <div class="row">
+                <span class="label">
+                    Affected Subdomain
+                </span>
+
+                <span class="value">
+                    https://www.paul-bruno.net/
+                </span>
+            </div>
+
+
+            <div class="row">
+                <span class="label">
+                    Service
+                </span>
+
+                <span class="value">
+                    GitHub Pages
+                </span>
+            </div>
+
+
+            <div class="row">
+                <span class="label">
+                    Verification Status
+                </span>
+
+                <span class="value" style="color:#4ade80;">
+                    Verified
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- CNAME RECORDS -->
+
+        <div class="cname-section">
+
+            <h2>
+                CNAME Records
+            </h2>
+
+            <code class="cname">
+                0xpb.github.io
+            </code>
+
+            <code class="cname">
+                project.github.io
+            </code>
+
+            <!-- Add more CNAME records if needed -->
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div class="result">
+
+            <div class="result-title">
+                ✓ Verification Result
+            </div>
+
+            <div class="result-text">
+                The affected subdomain was verified as vulnerable
+                during an authorized security assessment.
+            </div>
+
+        </div>
+
+
+        <!-- RESEARCHER -->
+
+        <div class="researcher">
+
+            Reported / Verified by
+
+            <br>
+
+            <strong>
+                Anamul Islam Naeem
+            </strong>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            This proof-of-concept is intended for authorized
+            security testing and responsible disclosure purposes only.
+
+            <br><br>
+
+            Do not use this page against systems without authorization.
+
+        </div>
+
     </div>
 
 </div>
