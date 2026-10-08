@@ -1,119 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subdomain Takeover Verification</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<title>Security Verification</title>
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0b1120;
-            color: #e5e7eb;
-            font-family: Arial, sans-serif;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        .card {
-            width: 90%;
-            max-width: 650px;
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #080b12;
+    color: #e5e7eb;
+    font-family: Arial, sans-serif;
+    padding: 12px;
+}
 
-        h1 {
-            margin-top: 0;
-            color: #60a5fa;
-        }
+.card {
+    width: 100%;
+    max-width: 500px;
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.45);
+}
 
-        .status {
-            display: inline-block;
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: #052e16;
-            color: #4ade80;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #052e16;
+    color: #4ade80;
+    font-size: 10px;
+    font-weight: bold;
+}
 
-        .item {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid #1f2937;
-        }
+h1 {
+    margin: 10px 0 4px;
+    color: #60a5fa;
+    font-size: 21px;
+}
 
-        .label {
-            color: #9ca3af;
-        }
+.subtitle {
+    margin: 0 0 15px;
+    color: #9ca3af;
+    font-size: 11px;
+}
 
-        .value {
-            font-weight: bold;
-        }
+.info {
+    background: #0f172a;
+    border-radius: 8px;
+    overflow: hidden;
+}
 
-        .result {
-            margin-top: 24px;
-            padding: 18px;
-            border-radius: 10px;
-            background: #172033;
-            border-left: 4px solid #22c55e;
-            line-height: 1.6;
-        }
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #1f2937;
+}
 
-        .footer {
-            margin-top: 24px;
-            color: #6b7280;
-            font-size: 13px;
-        }
-    </style>
+.row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.value {
+    color: #f3f4f6;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+    word-break: break-all;
+}
+
+.cname {
+    color: #38bdf8;
+    font-family: monospace;
+}
+
+.name {
+    color: #a78bfa;
+}
+
+.status {
+    color: #4ade80;
+}
+
+.result {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #052e16;
+    border-left: 3px solid #22c55e;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.result strong {
+    color: #4ade80;
+}
+
+.footer {
+    margin-top: 10px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 9px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="card">
 
-    <div class="status">✓ Scan Completed</div>
+    <span class="badge">SECURITY RESEARCH / PoC</span>
 
     <h1>Subdomain Takeover Verification</h1>
 
-    <div class="item">
-        <span class="label">Targets Checked</span>
-        <span class="value">122</span>
-    </div>
+    <p class="subtitle">
+        GitHub Pages CNAME verification
+    </p>
 
-    <div class="item">
-        <span class="label">Templates Used</span>
-        <span class="value">73</span>
-    </div>
+    <div class="info">
 
-    <div class="item">
-        <span class="label">Scan Duration</span>
-        <span class="value">18.34 seconds</span>
-    </div>
+        <div class="row">
+            <span class="label">Vulnerable Subdomain</span>
+            <span class="value">
+                test.example.com
+            </span>
+        </div>
 
-    <div class="item">
-        <span class="label">Potential Takeovers</span>
-        <span class="value">0</span>
+        <div class="row">
+            <span class="label">CNAME Records</span>
+            <span class="value cname">
+                username.github.io
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Service</span>
+            <span class="value">
+                GitHub Pages
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Researcher</span>
+            <span class="value name">
+                YOUR NAME
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Status</span>
+            <span class="value status">
+                Verified
+            </span>
+        </div>
+
     </div>
 
     <div class="result">
-        <strong>Result:</strong><br>
-        No potential subdomain takeover was identified during this scan.
+        <strong>✓ Verification Result</strong><br>
+        The subdomain was verified during an authorized
+        security assessment.
     </div>
 
     <div class="footer">
-        This result represents an automated verification and should be
-        manually validated before making a final security determination.
+        Authorized testing &amp; responsible disclosure only.
     </div>
 
 </div>
